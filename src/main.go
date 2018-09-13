@@ -28,8 +28,8 @@ func logic(logger zap.Logger) {
 	array := "HOUGE" + "HUGE"
 
 	logger.Info(array)
-	record := newRecord("new!")
-	logger.Info(record)
+	// record := newRecord("new!")
+	logger.Info("record")
 
 	logger.Info("endLogic")
 }

@@ -25,14 +25,10 @@
 #   unused-packages = true
 
 
-[prune]
-  go-tests = true
-  unused-packages = true
-
-[[constraint]]
-  name = "github.com/Uber-go/zap"
-  version = "1.0.0-rc.1"
-
 [[constraint]]
   name = "go.uber.org/zap"
   version = "1.9.1"
+
+[prune]
+  go-tests = true
+  unused-packages = true
