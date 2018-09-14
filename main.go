@@ -3,16 +3,19 @@ package main
 import (
 	"bytes"
 	"io/ioutil"
+	"log"
 	"text/template"
 
 	_ "github.com/ryota0624/helloworld_log/statik"
 	// _ "./statik"
+	"github.com/joho/godotenv"
 
 	"github.com/rakyll/statik/fs"
 	"go.uber.org/zap"
 )
 
 func loadStatikFS(path string) (string, error) {
+
 	statikFS, err := fs.New()
 
 	if err != nil {
@@ -58,6 +61,11 @@ func newSqlStruct(columns string, table string) SQLStruct {
 }
 
 func main() {
+	env, err := godotenv.Read()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	logger, _ := zap.NewProduction()
 	defer logger.Sync() // flushes buffer, if any
 	sugar := logger.Sugar()
@@ -78,7 +86,13 @@ func main() {
 
 	var doc bytes.Buffer
 
-	data := newSqlStruct("id,name", "users")
+	tableName, ok := env["TABLE_NAME"]
+
+	if !ok {
+		panic("env[TABLE_NAME] is no defined")
+	}
+
+	data := newSqlStruct("id,name", tableName)
 
 	if err := queryTemplate.Execute(&doc, data); err != nil {
 		panic(err)

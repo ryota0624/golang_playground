@@ -1,3 +1,5 @@
+github.com/joho/godotenv v1.3.0 h1:Zjp+RcGpHhGlrMbJzXTrZZPrWj+1vfm90La1wgB6Bhc=
+github.com/joho/godotenv v1.3.0/go.mod h1:7hK45KPybAkOC6peb+G5yklZfMxEjkZhHbwpqxOKXbg=
 github.com/rakyll/statik v0.1.4 h1:zCS/YQCxfo/fQjCtGVGIyWGFnRbQ18Y55mhS3XPE+Oo=
 github.com/rakyll/statik v0.1.4/go.mod h1:OEi9wJV/fMUAGx1eNjq75DKDsJVuEv1U0oYdX6GX8Zs=
 go.uber.org/atomic v1.2.0 h1:yVVGhClJ8Xi1y4TxhJZE6QFPrz76BrzhWA01n47mSFk=
