@@ -1,3 +1,5 @@
+github.com/rakyll/statik v0.1.4 h1:zCS/YQCxfo/fQjCtGVGIyWGFnRbQ18Y55mhS3XPE+Oo=
+github.com/rakyll/statik v0.1.4/go.mod h1:OEi9wJV/fMUAGx1eNjq75DKDsJVuEv1U0oYdX6GX8Zs=
 go.uber.org/atomic v1.2.0 h1:yVVGhClJ8Xi1y4TxhJZE6QFPrz76BrzhWA01n47mSFk=
 go.uber.org/atomic v1.2.0/go.mod h1:gD2HeocX3+yG+ygLZcrzQJaqmWj9AIm7n08wl/qW/PE=
 go.uber.org/multierr v1.1.0 h1:HoEmRHQPVSqub6w2z2d2EOVs2fjyFRGyofhKuyDq0QI=

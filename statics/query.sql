@@ -1,0 +1,4 @@
+select 
+  {{.Columns}} 
+from 
+  {.Table};

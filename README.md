@@ -11,3 +11,7 @@ cli作る用ライブラリを使ってみる
 sqlいじる
 
 bqのライブラリいじる
+
+# start
+go get github.com/rakyll/statik
+statik -src=statics -dest=src
