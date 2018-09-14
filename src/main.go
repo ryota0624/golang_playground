@@ -5,7 +5,8 @@ import (
 	"io/ioutil"
 	"text/template"
 
-	_ "./statik"
+	_ "github.com/ryota0624/helloworld_log/src/statik"
+	// _ "./statik"
 
 	"github.com/rakyll/statik/fs"
 	"go.uber.org/zap"
