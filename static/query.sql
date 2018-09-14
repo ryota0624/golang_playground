@@ -1,4 +1,8 @@
 select 
   {{.Columns}} 
 from 
-  {.Table};
+  {{.Table}}
+{{ if eq .Where "" }}
+{{ else }}
+where {{ .Where }}
+{{ end }};

@@ -2,16 +2,24 @@ package main
 
 import (
 	"bytes"
+	"io"
 	"io/ioutil"
 	"log"
-	"text/template"
+	"os"
+
+	"github.com/golang/go/src/html/template"
+	"github.com/urfave/cli"
 
 	_ "github.com/ryota0624/helloworld_log/statik"
 	// _ "./statik"
 	"github.com/joho/godotenv"
-
 	"github.com/rakyll/statik/fs"
 	"go.uber.org/zap"
+)
+
+const (
+	whereFlag   = "where"
+	columnsFlag = "columns"
 )
 
 func loadStatikFS(path string) (string, error) {
@@ -51,16 +59,41 @@ func loggerSample() {
 type SQLStruct struct {
 	Columns string
 	Table   string
+	Where   string
 }
 
-func newSqlStruct(columns string, table string) SQLStruct {
+func newSQLStruct(columns string, table string, where string) SQLStruct {
 	return SQLStruct{
 		Columns: columns,
 		Table:   table,
+		Where:   where,
 	}
 }
 
-func main() {
+func makeCLIApp() *cli.App {
+	cliApp := cli.NewApp()
+
+	cliApp.Flags = []cli.Flag{
+		cli.StringFlag{
+			Name:  whereFlag,
+			Value: "",
+			Usage: "sql where",
+		},
+		cli.StringFlag{
+			Name:  columnsFlag,
+			Value: "*",
+			Usage: "columns where",
+		},
+	}
+
+	return cliApp
+}
+
+type SQLBuilter struct {
+	output io.Writer
+}
+
+func (builder SQLBuilter) build(ctx *cli.Context) error {
 	env, err := godotenv.Read()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -92,15 +125,26 @@ func main() {
 		panic("env[TABLE_NAME] is no defined")
 	}
 
-	data := newSqlStruct("id,name", tableName)
+	data := newSQLStruct(ctx.String(columnsFlag), tableName, ctx.String(whereFlag))
 
 	if err := queryTemplate.Execute(&doc, data); err != nil {
 		panic(err)
 	}
 
-	s := doc.String()
+	builder.output.Write(doc.Bytes())
 
-	sugar.Infof("destination query %s", s)
+	return nil
+}
+
+func main() {
+	cliApp := makeCLIApp()
+	cliApp.Action = SQLBuilter{
+		output: os.Stdout,
+	}.build
+	err := cliApp.Run(os.Args)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 type Record struct {
@@ -119,7 +163,6 @@ func logic(logger zap.Logger) {
 	array := "HOUGE" + "HUGE"
 
 	logger.Info(array)
-	// record := newRecord("new!")
 	logger.Info("record")
 
 	logger.Info("endLogic")
