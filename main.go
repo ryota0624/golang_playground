@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"text/template"
 
-	_ "github.com/ryota0624/helloworld_log/src/statik"
+	_ "github.com/ryota0624/helloworld_log/statik"
 	// _ "./statik"
 
 	"github.com/rakyll/statik/fs"

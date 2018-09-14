@@ -14,4 +14,4 @@ bqのライブラリいじる
 
 # start
 go get github.com/rakyll/statik
-statik -src=statics -dest=src
+statik -src=static
