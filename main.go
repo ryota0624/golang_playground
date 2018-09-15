@@ -33,10 +33,16 @@ func makeCLIApp() *cli.App {
 	return cliApp
 }
 
-func timeControll() {
-	_ := time.Now()
-	_, _ := time.Parse("2006-01-02", "2014-12-31")
+func nowString() string {
+	now := time.Now()
+	_, _ = time.Parse("2006-01-02", "2014-12-31")
 	// https://qiita.com/taizo/items/acbee530bd33c803dab4
+	return now.Format("20060102")
+}
+
+func yeasterdayString() string {
+	yesterday := time.Now().AddDate(0, 0, -1)
+	return yesterday.Format("20060102")
 }
 
 func execShell() {
@@ -53,6 +59,9 @@ func execShell() {
 }
 
 func main() {
+	log.Println("now", nowString())
+	log.Println("yesterday", yeasterdayString())
+
 	cliApp := makeCLIApp()
 	cliApp.Action = sql_builder.SQLBuilder{
 		Output: os.Stdout,
