@@ -1,4 +1,4 @@
-package record_sample
+package helloworld_log
 
 import "go.uber.org/zap"
 

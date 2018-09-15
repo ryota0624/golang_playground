@@ -1,75 +1,29 @@
 package main
 
 import (
-	"bytes"
-	"io"
-	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 
-	"github.com/golang/go/src/html/template"
+	"github.com/ryota0624/helloworld_log/common"
 	"github.com/urfave/cli"
 
+	"github.com/ryota0624/helloworld_log/sql_builder"
 	_ "github.com/ryota0624/helloworld_log/statik"
 	// _ "./statik"
-	"github.com/joho/godotenv"
-	"github.com/rakyll/statik/fs"
-	"go.uber.org/zap"
 )
-
-const (
-	whereFlag   = "where"
-	columnsFlag = "columns"
-)
-
-func loadStatikFS(path string) (string, error) {
-
-	statikFS, err := fs.New()
-
-	if err != nil {
-		return "", err
-	}
-
-	file, err := statikFS.Open(path)
-
-	if err != nil {
-		return "", err
-	}
-
-	queryAsByte, err := ioutil.ReadAll(file)
-
-	if err != nil {
-		return "", err
-	}
-
-	return string(queryAsByte), nil
-}
-
-type SQLStruct struct {
-	Columns string
-	Table   string
-	Where   string
-}
-
-func newSQLStruct(columns string, table string, where string) SQLStruct {
-	return SQLStruct{
-		Columns: columns,
-		Table:   table,
-		Where:   where,
-	}
-}
 
 func makeCLIApp() *cli.App {
 	cliApp := cli.NewApp()
 
 	cliApp.Flags = []cli.Flag{
 		cli.StringFlag{
-			Name:  whereFlag,
+			Name:  sql_builder.WhereFlag,
 			Value: "",
 			Usage: "sql where",
 		},
 		cli.StringFlag{
-			Name:  columnsFlag,
+			Name:  sql_builder.ColumnsFlag,
 			Value: "*",
 			Usage: "columns where",
 		},
@@ -77,59 +31,24 @@ func makeCLIApp() *cli.App {
 
 	return cliApp
 }
+func execShell() {
+	configShell, loadConfigError := common.LoadStatikFS("/config.sh")
+	if loadConfigError != nil {
+		panic(loadConfigError)
+	}
 
-type SQLBuilter struct {
-	output io.Writer
+	_, execError := exec.Command("sh", "-c", configShell).Output()
+	println(os.Getenv("CONFIG2"))
+	if execError != nil {
+		panic(execError)
+	}
 }
-
-func (builder SQLBuilter) build(ctx *cli.Context) error {
-	env, err := godotenv.Read()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
-	logger, _ := zap.NewProduction()
-	defer logger.Sync() // flushes buffer, if any
-	sugar := logger.Sugar()
-
-	query, error := loadStatikFS("/query.sql")
-
-	if error != nil {
-		panic(error)
-	}
-
-	sugar.Infof("query template %s", query)
-
-	queryTemplate, err := template.New("sqlQuery").Parse(query)
-
-	if err != nil {
-		panic(err)
-	}
-
-	var doc bytes.Buffer
-
-	tableName, ok := env["TABLE_NAME"]
-
-	if !ok {
-		panic("env[TABLE_NAME] is no defined")
-	}
-
-	data := newSQLStruct(ctx.String(columnsFlag), tableName, ctx.String(whereFlag))
-
-	if err := queryTemplate.Execute(&doc, data); err != nil {
-		panic(err)
-	}
-
-	builder.output.Write(doc.Bytes())
-
-	return nil
-}
-
 func main() {
+
 	cliApp := makeCLIApp()
-	cliApp.Action = SQLBuilter{
-		output: os.Stdout,
-	}.build
+	cliApp.Action = sql_builder.SQLBuilder{
+		Output: os.Stdout,
+	}.Run
 	err := cliApp.Run(os.Args)
 	if err != nil {
 		log.Fatal(err)
