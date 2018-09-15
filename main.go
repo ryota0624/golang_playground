@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"time"
 
 	"github.com/ryota0624/helloworld_log/common"
 	"github.com/urfave/cli"
@@ -31,6 +32,13 @@ func makeCLIApp() *cli.App {
 
 	return cliApp
 }
+
+func timeControll() {
+	_ := time.Now()
+	_, _ := time.Parse("2006-01-02", "2014-12-31")
+	// https://qiita.com/taizo/items/acbee530bd33c803dab4
+}
+
 func execShell() {
 	configShell, loadConfigError := common.LoadStatikFS("/config.sh")
 	if loadConfigError != nil {
@@ -43,8 +51,8 @@ func execShell() {
 		panic(execError)
 	}
 }
-func main() {
 
+func main() {
 	cliApp := makeCLIApp()
 	cliApp.Action = sql_builder.SQLBuilder{
 		Output: os.Stdout,
