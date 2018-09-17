@@ -14,7 +14,7 @@ type SchemaRowJson struct {
 
 type Schema struct {
 	Name string
-	Type string
+	Type ColumnType
 	Mode Mode
 }
 
@@ -29,7 +29,10 @@ func (mode Mode) string() string {
 
 func mode(str string) (Mode, error) {
 	switch str {
-
+	case Nullable.string():
+		return Nullable, nil
+	case Required.string():
+		return Required, nil
 	default:
 		return Nullable, fmt.Errorf("error: %s is not found in Mode", str)
 	}
