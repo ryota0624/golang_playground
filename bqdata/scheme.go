@@ -1,4 +1,4 @@
-package bq_data
+package bqdata
 
 import (
 	"fmt"
