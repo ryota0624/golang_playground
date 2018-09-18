@@ -3,7 +3,7 @@ package recordsample
 import "go.uber.org/zap"
 
 type Record struct {
-	Name string
+	Name string `json:"name"`
 }
 
 func newRecord(name string) Record {

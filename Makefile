@@ -3,3 +3,9 @@ build:
 
 initialize:
 	go get -u golang.org/x/vgo
+	
+lint:
+	golint ./... && vgo tool vet ./
+
+format:
+	gofmt -s -w . 
