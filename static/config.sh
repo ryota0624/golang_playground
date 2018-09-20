@@ -1,2 +1,0 @@
-export CONFIG1="CONFIG1"
-export CONFIG2="${CONFIG1}/CONFIG2"

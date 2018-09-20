@@ -1,5 +1,5 @@
 build:
-	statik -src=static && vgo run main.go
+	statik -src=static && sh app.sh
 
 initialize:
 	go get -u golang.org/x/vgo

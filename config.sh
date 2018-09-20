@@ -1,0 +1,2 @@
+export CONFIG_ENV=CONFIG_ENV!
+

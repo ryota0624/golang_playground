@@ -15,6 +15,8 @@ import (
 )
 
 func makeCLIApp() *cli.App {
+	log.Printf("CONFIG_ENV: %s", os.Getenv("CONFIG_ENV"))
+
 	cliApp := cli.NewApp()
 
 	cliApp.Flags = []cli.Flag{
