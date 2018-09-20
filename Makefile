@@ -1,5 +1,5 @@
 build:
-	statik -src=static && sh app.sh
+	statik -src=static && godotenv sh -c ". ./config.sh && vgo run main.go"
 
 initialize:
 	go get -u golang.org/x/vgo
