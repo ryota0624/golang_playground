@@ -1,4 +1,4 @@
-package recordsample
+package record_sample
 
 import "go.uber.org/zap"
 

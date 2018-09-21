@@ -7,6 +7,8 @@ import (
 	"time"
 
 	"github.com/ryota0624/helloworld_log/common"
+	"github.com/ryota0624/helloworld_log/record_sample"
+	"github.com/ryota0624/helloworld_log/record_sample/nest"
 	"github.com/urfave/cli"
 
 	"github.com/ryota0624/helloworld_log/sql_builder"
@@ -61,6 +63,8 @@ func execShell() {
 }
 
 func main() {
+	nest.Fn()
+	_ = record_sample.Record{}
 	log.Println("now", nowString())
 	log.Println("yesterday", yeasterdayString())
 

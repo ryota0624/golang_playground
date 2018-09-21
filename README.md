@@ -19,3 +19,13 @@ templateでsqlを作る
 # start
 go get github.com/rakyll/statik
 statik -src=static
+
+# Logger
+```
+	logger.Info("INFO") // Infoでる
+	logger.Debug("DEBUG") // 本番だと出力されない
+	logger.Error("ERROR") // stack trace出るけどプログラムは止まらない exit status 1
+	logger.Fatal("Fatal") //プログラム止まる exit status 1
+	logger.Warn("WARN")   // 開発だとstack traceが出る
+	logger.Panic("PANIC") // 本番でもstacktraceが詳細に出る exit status 2
+```
