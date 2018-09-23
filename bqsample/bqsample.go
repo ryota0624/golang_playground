@@ -9,6 +9,11 @@ import (
 	"google.golang.org/api/iterator"
 )
 
+// テーブル作るくん
+func makeTmp(ctx context.Context, client *bigquery.Client) error {
+	return client.Dataset("master").Table("tmp_advertiser").Create(ctx, nil)
+}
+
 func Do() {
 	ctx := context.Background()
 	client, error := bigquery.NewClient(ctx, "handson-1061")
@@ -17,9 +22,26 @@ func Do() {
 		panic(error)
 	}
 
-	query := client.Query("select name from master.advertiser;")
+	// error = makeTmp(ctx, client)
+	// if error != nil {
+	// 	panic(error)
+	// }
 
-	it, error := query.Read(ctx)
+	query := client.Query("select name from master.advertiser limit 2;")
+	// query.AllowLargeResults = true
+	query.WriteDisposition = bigquery.WriteTruncate // 書き込み先にデータがあった場合はoverrideする
+	// query.CreateDisposition // クエリー結果テーブルを作成するか
+
+	// query.DryRun = true
+	query.Dst = client.Dataset("master").Table("tmp_advertiser") // Dstはdestinationtable
+
+	job, error := query.Run(ctx)
+
+	if error != nil {
+		log.Println("Failed to Run Query Job:%v", error)
+	}
+
+	it, error := job.Read(ctx)
 
 	if error != nil {
 		log.Println("Failed to Read Query:%v", error)
