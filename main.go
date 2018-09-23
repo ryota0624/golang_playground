@@ -6,13 +6,13 @@ import (
 	"os/exec"
 	"time"
 
+	"github.com/ryota0624/helloworld_log/bqsample"
 	"github.com/ryota0624/helloworld_log/common"
 	"github.com/ryota0624/helloworld_log/record_sample"
 	"github.com/ryota0624/helloworld_log/record_sample/nest"
-	"github.com/urfave/cli"
-
 	"github.com/ryota0624/helloworld_log/sql_builder"
 	_ "github.com/ryota0624/helloworld_log/statik"
+	"github.com/urfave/cli"
 	// _ "./statik"
 )
 
@@ -63,6 +63,9 @@ func execShell() {
 }
 
 func main() {
+	bqsample.Do()
+
+	os.Exit(0)
 	nest.Fn()
 	_ = record_sample.Record{}
 	log.Println("now", nowString())
