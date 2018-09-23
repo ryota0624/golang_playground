@@ -3,6 +3,7 @@ package bqsample
 import (
 	"context"
 	"log"
+	"os"
 
 	"cloud.google.com/go/bigquery"
 )
@@ -28,7 +29,7 @@ func ExportGCS() {
 		log.Printf("Failed to Run Query Job:%v\n", queryError.Error())
 	}
 
-	gcsRef := bigquery.NewGCSReference("tmp.csv.gzip")
+	gcsRef := bigquery.NewGCSReference(os.Getenv("CSV_GCS_PATH"))
 	gcsRef.Compression = bigquery.Gzip
 	gcsRef.DestinationFormat = bigquery.CSV
 
