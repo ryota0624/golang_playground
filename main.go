@@ -63,7 +63,8 @@ func execShell() {
 }
 
 func main() {
-	bqsample.Do()
+	//bqsample.Do()
+	bqsample.ExportGCS()
 
 	os.Exit(0)
 	nest.Fn()

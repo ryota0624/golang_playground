@@ -2,11 +2,9 @@ package bqsample
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"cloud.google.com/go/bigquery"
-	"google.golang.org/api/iterator"
 )
 
 // テーブル作るくん
@@ -38,33 +36,33 @@ func Do() {
 	job, error := query.Run(ctx)
 
 	if error != nil {
-		log.Println("Failed to Run Query Job:%v", error)
+		log.Printf("Failed to Run Query Job:%v\n", error.Error())
 	}
 
-	it, error := job.Read(ctx)
+	_, error = job.Read(ctx) // クエリ結果を使わないなら _ でいいのかしら？
 
 	if error != nil {
-		log.Println("Failed to Read Query:%v", error)
+		log.Printf("Failed to Read Query:%v\n", error)
 	}
 
-	for {
-		// BigQueryの結果から、中身を格納するためのBigQuery.Valueのsliceを宣言
-		// BigQuery.Valueはinterface{}型
-		var values []bigquery.Value
+	// for {
+	// 	// BigQueryの結果から、中身を格納するためのBigQuery.Valueのsliceを宣言
+	// 	// BigQuery.Valueはinterface{}型
+	// 	var values []bigquery.Value
 
-		// 引数に与えたvaluesにnextを格納する
-		// Iteratorを返す
-		// これ以上結果が存在しない場合には、iterator.Doneを返す
-		// iterator.Doneが返ってきたら、forを抜ける
-		err := it.Next(&values)
-		if err == iterator.Done {
-			break
-		}
+	// 	// 引数に与えたvaluesにnextを格納する
+	// 	// Iteratorを返す
+	// 	// これ以上結果が存在しない場合には、iterator.Doneを返す
+	// 	// iterator.Doneが返ってきたら、forを抜ける
+	// 	err := it.Next(&values)
+	// 	if err == iterator.Done {
+	// 		break
+	// 	}
 
-		if err != nil {
-			log.Println("Failed to Iterate Query:%v", err)
-		}
+	// 	if err != nil {
+	// 		log.Println("Failed to Iterate Query:%v", err)
+	// 	}
 
-		fmt.Println(values)
-	}
+	// 	fmt.Println(values)
+	// }
 }
