@@ -15,6 +15,7 @@ bqのライブラリいじる
 
 templateでsqlを作る
 
+vgoなにできる？のdepとちゃうん？
 
 # start
 go get github.com/rakyll/statik
