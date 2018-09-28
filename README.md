@@ -25,6 +25,11 @@ vgoなにできる？のdepとちゃうん？
 
 日付操作ライブラリを探す
 
+mysql
+load文は無言でシヌ
+show warningで原因がわかるときもある
+execは1文ずつ！
+
 
 
 # start
