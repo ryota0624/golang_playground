@@ -25,6 +25,8 @@ vgoなにできる？のdepとちゃうん？
 
 日付操作ライブラリを探す
 
+generateでなにができるのか探る
+
 mysql
 load文は無言でシヌ
 show warningで原因がわかるときもある
