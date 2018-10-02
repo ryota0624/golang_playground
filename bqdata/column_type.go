@@ -16,7 +16,8 @@ const (
 func (columnType ColumnType) string() string {
 	return string(columnType)
 }
-
+ 
+// Mapでもってっていうのもありじゃね
 func columnType(str string) (ColumnType, error) {
 	switch str {
 
