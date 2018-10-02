@@ -30,7 +30,7 @@ load文は無言でシヌ
 show warningで原因がわかるときもある
 execは1文ずつ！
 
-
+ビルドしたときにソースコード書き換えるサンプル
 
 # start
 go get github.com/rakyll/statik
